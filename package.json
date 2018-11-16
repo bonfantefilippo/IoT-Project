@@ -9,6 +9,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "restify": "^6.2.3"
+    "body-parser": "^1.18.3",
+    "influx": "^5.0.7",
+    "restify": "^6.2.3",
+    "restify-router": "^0.5.1"
   }
 }

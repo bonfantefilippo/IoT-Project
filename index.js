@@ -1,27 +1,62 @@
-var restify = require('restify');
+const Router = require('restify-router').Router;
+const routerInstance =new Router();
+var restify = require("restify");
+const server = restify.createServer({
+  name: 'SERVER_carIot-Project',
+ // log: options.log
+});
+const influxManager = require("./db/influx/controllers/db.controller");
+const sensorsRouter = require('./V1/sensors/sensors');
+const carsRouter = require('./V1/cars/cars');
 
-var server = restify.createServer();
 server.use(restify.plugins.bodyParser());
+//applico rotte e prefisso
+sensorsRouter.applyRoutes(server, "/v1/sensor");
 
-server.get('/cars', function(req, res, next) {
-    res.send('List of cars: [TODO]');
-    return next();
-});
-
-server.get('/cars/:plate', function(req, res, next) {
-    res.send('Current values for car ' + req.params['plate'] + ': [TODO]');
-    return next();
-});
-
-server.post('/cars/:plate', function(req, res, next) {
-    res.send('Data received from plate [TODO]');
-
-    // uncomment to see posted data
-    //console.log(req.body);
-
-    return next();
-});
+routerInstance.applyRoutes(server)
+influxManager.connect();
 
 server.listen(8080, function() {
-    console.log('%s listening at %s', server.name, server.url);
+  console.log("%s listening at %s", server.name, server.url);
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+// separare API e Influx
+/*const schema = influx.schema(
+  "car",
+  {
+    path: InfluxModule.FieldType.STRING,
+    duration: InfluxModule.FieldType.INTEGER
+  },
+  ["host"]
+);
+
+const connectionObject = influx.connectionObject('localhost', 'cars', schema);
+const influxConnection = influx.connect(connectionObject);
+influxConnection.writePoints([
+  {
+    measurement: 'car',
+    tags: { host: 'idSensoreOlio', host: "idSs" },
+    fields: { duration: 10, path: 2,  },
+  }
+]).then(() => {
+  return influx.query(`
+    select * from rpm
+    where host = ${InfluxModule.escape.stringLit(os.hostname())}
+    order by time desc
+    limit 10
+  `)
+}).then(rows => {
+  rows.forEach(row => console.log(`A request to ${row.path} took ${row.duration}ms`))
+})*/
