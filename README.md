@@ -31,7 +31,7 @@ npm install //install al packages
 node index //start server
 ```
 
-### HTTP case - Example
+### HTTP 
 ```
 Open Postman
 Choose HTTP Verbs
@@ -43,8 +43,17 @@ Verb: GET
 URL: http://localhost:8080/v1/sensors/
 Send request
 
+## Built With
 
-### MQTT case - Example
+* [NodeJS](https://nodejs.org/en/) - JavaScript runtime built on Chrome's V8 JavaScript engine
+* [Restify](http://restify.com/) - Node.js web service framework optimized for building semantically correct RESTful web services
+
+## HTTP Versioning
+
+I use [Restify](http://semver.org/) for API versioning. 
+
+
+### MQTT
 ```
  ADD MQTT CASE
 ```
@@ -52,15 +61,10 @@ For example:
 little mqtt example
 
 
-## Built With
-
-* [NodeJS](https://nodejs.org/en/) - JavaScript runtime built on Chrome's V8 JavaScript engine
-* [Restify](http://restify.com/) - Node.js web service framework optimized for building semantically correct RESTful web services
 
 
-## HTTP Versioning
 
-I use [Restify](http://semver.org/) for API versioning. 
+
 
 ## Authors
 
@@ -74,4 +78,4 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 * Hat tip to anyone whose code was used
 * Inspiration
-* etc
+
