@@ -1,23 +1,48 @@
-const express = require("express");
-const router = express.Router();
-const bodyparser = require("body-parser");
-router.use(bodyparser.json());
+const Router = require("restify-router").Router;
+const router = new Router();
+const restify = require("restify");
 
-router.get("/v1/cars/", function(req, res, next) {
-    res.send("List of cars: [TODO]");
-    return next();
-  });
+router.use(restify.plugins.bodyParser());
+
+//lista delle auto
+router.get("/", function(req, res, next) {
+  try{
+    res.send(200, "List of cars: [TODO]");
+  }catch(e){
+    res.send(500, {error: e});
+  }finally{
+    console.log("[GET] /v1/cars/");
+  }
+ 
+  return next();
+});
+
+//specifiche auto
+router.get("/:plate", function(req, res, next) {
+  try{
+    res.send(200, "Current values for car " + req.params["plate"] + ": [TODO]");
+  }catch(e){
+    res.send(500, {error: e});
+  }finally{
+    console.log("[GET] /v1/cars/plate");
+  }
+ 
+ 
+  return next();
+});
+
+//inserimento nuova auto
+router.post("/:plate", function(req, res, next) {
+  try{
+    res.send(201, "Data received from plate [TODO]");
+  }catch(e){
+    res.send(500, )
+  }finally{
+    console.log("[POST] /v1/cars/plate");
+  }
+ 
   
-  router.get("/v1/cars/:plate", function(req, res, next) {
-    res.send("Current values for car " + req.params["plate"] + ": [TODO]");
-    return next();
-  });
-  
-  router.post("/v1/cars/:plate", function(req, res, next) {
-    res.send("Data received from plate [TODO]");
-    // uncomment to see posted data
-    // console.log(req.body);
-    return next();
-  });
-  
-  module.exports = router;
+  return next();
+});
+
+module.exports = router;

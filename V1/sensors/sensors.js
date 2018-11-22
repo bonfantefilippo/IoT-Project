@@ -1,18 +1,19 @@
 const Router = require('restify-router').Router; 
 const router = new Router();
-const bodyparser = require("body-parser");
+const restify = require('restify');
 const influx = require('../../db/influx/controllers/db.controller');
-router.use(bodyparser.json());
+
+router.use(restify.plugins.bodyParser());
+
 
 //lista di sensori presenti nell'auto VA SU CARS
 router.get("/", (req, res, next) => {
   try {
-    res.send(201, {hello: "world"});
-    //res.send();
+    res.send(200, {hello: "world"});
   } catch (e) {
     res.send(500, {error: e});
   } finally {
-   // console.dir("res");
+    console.log("[GET] /v1/sensors/");
   }
   return next();
 });
@@ -21,11 +22,11 @@ router.get("/", (req, res, next) => {
 router.get("/data", (req, res, next) => {
   try {
     //query
-    res.sendStatus(200);
+    res.send(200, [{value: "sensore1"},  {value: "sensore2"}]);
   } catch (e) {
     res.sendStatus(500).send(e);
   } finally {
-    console.dir(res);
+    console.log("[GET] /v1/sensors/data");
   }
   return next();
 });
@@ -34,11 +35,11 @@ router.get("/data", (req, res, next) => {
 router.get("/data/:id", (req, res, next) => {
   try {
    
-    res.sendStatus(200);
+    res.send(200, {value: "singolo sensore"});
   } catch (e) {
     res.sendStatus(500).send(e);
   } finally {
-    console.dir(res);
+    console.log("[GET] /v1/sensors/data/id");
   }
   return next();
 });
@@ -47,17 +48,26 @@ router.get("/data/:id", (req, res, next) => {
 //scrittura misure
 router.post("/write", (req, res, next) => {
   try {
-    let measure = req.body;
-    //influx.writeOnInflux("ciao", measure);
-    console.log(measure);
-    
+    res.send(201, {value: "POSTED"}); 
   } catch (e) {
     res.sendStatus(500).send(e);
   } finally {
-    console.dir(res);
+    console.log("[POST] /v1/sensors/write");
+    console.dir(`${req.body}`);
   }
   return next();
+});
 
+//scrittura singola misura
+router.post("/write/:id", (req, res, next) => {
+  try {
+      res.send(201, {value: "sono la post, puoi scrivere"}); 
+  } catch (e) {
+    res.sendStatus(500).send(e);
+  } finally {
+    console.log(`[POST] /v1/sensors/write/id}`);
+  }
+  return next();
 });
 
 module.exports = router;

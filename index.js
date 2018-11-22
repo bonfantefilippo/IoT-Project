@@ -10,10 +10,12 @@ const sensorsRouter = require('./V1/sensors/sensors');
 const carsRouter = require('./V1/cars/cars');
 
 server.use(restify.plugins.bodyParser());
-//applico rotte e prefisso
-sensorsRouter.applyRoutes(server, "/v1/sensor");
 
-routerInstance.applyRoutes(server)
+//applico rotte e prefisso
+sensorsRouter.applyRoutes(server, "/v1/sensors");
+carsRouter.applyRoutes(server, 'v1/cars')
+
+//routerInstance.applyRoutes(server);
 influxManager.connect();
 
 server.listen(8080, function() {
