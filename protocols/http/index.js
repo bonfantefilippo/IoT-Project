@@ -5,7 +5,9 @@ const server = restify.createServer({
   name: 'SERVER_carIot-Project',
  // log: options.log
 });
-const influxManager = require("./db/influx/controllers/db.controller");
+
+
+const influxManager = require("./../../db/influx/controllers/db.controller");
 const sensorsRouter = require('./V1/sensors/sensors');
 const carsRouter = require('./V1/cars/cars');
 

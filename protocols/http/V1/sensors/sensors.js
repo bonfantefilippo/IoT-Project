@@ -1,7 +1,7 @@
 const Router = require('restify-router').Router; 
 const router = new Router();
 const restify = require('restify');
-const influx = require('../../db/influx/controllers/db.controller');
+const influx = require('./../../../../db/influx/controllers/db.controller');
 
 router.use(restify.plugins.bodyParser());
 

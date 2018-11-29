@@ -16,7 +16,7 @@ Neccessary technology useful to start the project
 ```
 NodeJS
 Internet Connection
-Postman o other services to call API
+Postman (or other services to call API)
 InfluxDB
 ```
 

@@ -1,5 +1,6 @@
 const influx = require("influx");
 
+
 connectionConfig = () => {
     return new influx.InfluxDB({
         host: 'localhost',
@@ -8,22 +9,28 @@ connectionConfig = () => {
     })
 }
 
-exports.connect = () => {
-    return connectionConfig();
+exports.connect = (host, db, port) => {
+    return new influx.InfluxDB({
+        host: host,
+        database: db,
+        port: port, //8086
+        schema: []
+    })
 }
-exports.writeOnInflux = (object) => {
-  influx
+
+exports.writeOnInflux = (db, object) => {
+  //console.log(object.fields);
+  var test =  {
+    measurement: object.measurement,
+    fields: object.fields,
+    tags: object.tags
+  };
+console.log(test);
+  db
     .writePoints(
-      (schema = [
-        {
-          measurement: object.measurement,
-          tags: object.tags,
-          fields: object.fields
-        }
-      ]) /*, {
-            database: 'ocean_tides',
-            precision: 's',
-         }*/
+      ([
+        test
+      ])
     )
     .catch(err => {
       console.error(`Error saving data to InfluxDB ${err.stack}`);
