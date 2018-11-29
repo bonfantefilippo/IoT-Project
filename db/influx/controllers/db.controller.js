@@ -20,16 +20,16 @@ exports.connect = (host, db, port) => {
 
 exports.writeOnInflux = (db, object) => {
   //console.log(object.fields);
-  var test =  {
+  var measure =  {
     measurement: object.measurement,
     fields: object.fields,
     tags: object.tags
   };
-console.log(test);
+console.log(measure);
   db
     .writePoints(
       ([
-        test
+        measure
       ])
     )
     .catch(err => {
