@@ -26,7 +26,8 @@ exports.writeOnInflux = (db, object) => {
     tags: object.tags
   };
  //console.log(measure);
- console.log("Successful publishing on InfluxDB\n")
+ //TODO find how to manage successful publish
+ console.log("[TODO] Successful publishing on InfluxDB\n")
   db
     .writePoints(
       ([
@@ -38,13 +39,24 @@ exports.writeOnInflux = (db, object) => {
     });
 };
 
-exports.getAllSensors = () => {
+exports.getAllMeasurement = () => {
   influx
   //fare query su chronograf e inserire
     .query(
       `
-    select * from tide
-    where location =~ /(?i)(${place})/
+    show measurements
+  `
+    )
+    .then(result => response.status(200).json(result))
+    .catch(error => response.status(500).json({ error }));
+};
+
+exports.getSpecificMeausure = (licensePlate, measured) => {
+  influx
+  //fare query su chronograf e inserire
+    .query(
+      `
+      SELECT mean("value") AS "mean_value" FROM "cars"."autogen"."${licensePlate}" WHERE time > now() - 1h AND "measured"='${measured}'
   `
     )
     .then(result => response.status(200).json(result))

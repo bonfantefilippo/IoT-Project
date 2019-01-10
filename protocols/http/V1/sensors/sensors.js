@@ -4,22 +4,10 @@ const restify = require('restify');
 const influx = require('./../../../../db/influx/controllers/db.controller');
 
 router.use(restify.plugins.bodyParser());
-
-
-//lista di sensori presenti nell'auto VA SU CARS
-router.get("/", (req, res, next) => {
-  try {
-    res.send(200, {hello: "world"});
-  } catch (e) {
-    res.send(500, {error: e});
-  } finally {
-    console.log("[GET] /v1/sensors/");
-  }
-  return next();
-});
+router.use(restify.plugins.queryParser());
 
 //dati sensori
-router.get("/data", (req, res, next) => {
+router.get("/data/:licensePlate/:measured", (req, res, next) => {
   try {
     //query
     res.send(200, [{value: "sensore1"},  {value: "sensore2"}]);

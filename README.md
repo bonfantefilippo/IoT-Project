@@ -1,7 +1,7 @@
 # SmartCar IoT Project
 
-IoT project that provide communication between SmartCart data_simulator e database(s).
-This server is useful to receive and retreive data through different protocols:
+IoT project that provide communication between SmartCar data_simulator e database(s).
+This server is useful to receive and retrieve data through different protocols:
  - HTTP
  - MQTT
  - CoAP
@@ -18,7 +18,7 @@ Neccessary technology useful to start the project
 
 ```
 NodeJS
-Postman (or other services to call API)
+Postman (or other services to make API calls)
 InfluxDB (not necessary)
 ```
 
@@ -29,7 +29,7 @@ A step by step series of examples that tell you how to get a development env run
 Step:
 
 ```
-npm install //install al packages
+npm install //install all packages
 
 Choose the protocol folder you want to use and run:
 node index //start server
@@ -69,7 +69,7 @@ Open a [WebSocketClient](http://www.hivemq.com/demos/websocket-client/) or creat
 
 Set up settings:
 * Host: *your host* or (for example) [HiveMQ](broker.hivemq.com)
-* Port: *your port* [HiveMQ](broker.hivemq.com) port is 8000
+* Port: *your port* or [HiveMQ](broker.hivemq.com) port is 8000
 
 Try connection
 
