@@ -25,7 +25,8 @@ exports.writeOnInflux = (db, object) => {
     fields: object.fields,
     tags: object.tags
   };
-console.log(measure);
+ //console.log(measure);
+ console.log("Successful publishing on InfluxDB\n")
   db
     .writePoints(
       ([
@@ -33,7 +34,7 @@ console.log(measure);
       ])
     )
     .catch(err => {
-      console.error(`Error saving data to InfluxDB ${err.stack}`);
+      console.error(`Error saving data to InfluxDB ${err.stack}\n`);
     });
 };
 

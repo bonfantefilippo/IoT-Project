@@ -55,13 +55,21 @@ I use [Restify](http://semver.org/) for API versioning.
 
 ### MQTT
 ```
- ADD MQTT CASE
+ Open a [WebSocketClient](http://www.hivemq.com/demos/websocket-client/)
+ Set up settings:
+ * Host: *your host* or (for example) [HiveMQ](broker.hivemq.com)
+ * Port: *your port* [HiveMQ](broker.hivemq.com) port is 8000
+Try connection
+Set topic as __smartcar/v1/*licenseplate*/*relevatedmeasure*__
+ * *smartcar/v1/ab123cd/temperature*
+Set message payload as:
+    {
+      value: 222,
+      sensorID: 125
+    }
+Try publishing
 ```
-For example:
-little mqtt example
-
-
-
+### CoAP
 
 
 

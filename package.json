@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.3",
+    "coap": "^0.22.0",
     "influx": "^5.0.7",
     "mqtt": "^2.18.8",
     "restify": "^6.2.3",
