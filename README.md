@@ -2,8 +2,11 @@
 
 IoT project that provide communication between SmartCart data_simulator e database(s).
 This server is useful to receive and retreive data through different protocols:
- - case HTTP: API to write and retrieve data related to generated date
- - case MQTT 
+ - HTTP
+ - MQTT
+ - CoAP
+
+Then, there is also an implementation to write data on [InfluxDB](https://www.influxdata.com/)
 
 ## Getting Started
 
@@ -15,9 +18,8 @@ Neccessary technology useful to start the project
 
 ```
 NodeJS
-Internet Connection
 Postman (or other services to call API)
-InfluxDB
+InfluxDB (not necessary)
 ```
 
 ### Installing
@@ -28,10 +30,22 @@ Step:
 
 ```
 npm install //install al packages
+
+Choose the protocol folder you want to use and run:
 node index //start server
 ```
 
-### HTTP 
+
+
+## Built With
+
+* [NodeJS](https://nodejs.org/en/) - JavaScript runtime built on Chrome's V8 JavaScript engine
+* [Restify](http://restify.com/) - Node.js web service framework optimized for building semantically correct RESTful web services
+* [MQTT](https://www.npmjs.com/package/mqtt) - MQTT.js is an OPEN Open Source Project
+* [CoAP](https://www.npmjs.com/package/coap) - Constrained Application Protocol (CoAP) is a software protocol intended to be used in very simple electronics devices that allows them to communicate interactively over the Internet
+* [Node-Influx](https://github.com/node-influx/node-influx) - A module for simplify all Influx operations with NodeJS
+
+## HTTP 
 ```
 Open Postman
 Choose HTTP Verbs
@@ -41,35 +55,55 @@ Send Request
 For example:
 Verb: GET
 URL: http://localhost:8080/v1/sensors/
+
 Send request
 
-## Built With
-
-* [NodeJS](https://nodejs.org/en/) - JavaScript runtime built on Chrome's V8 JavaScript engine
-* [Restify](http://restify.com/) - Node.js web service framework optimized for building semantically correct RESTful web services
-
-## HTTP Versioning
-
-I use [Restify](http://semver.org/) for API versioning. 
+### Versioning
+I used [Restify](http://semver.org/) for API versioning. 
 
 
-### MQTT
-```
- Open a [WebSocketClient](http://www.hivemq.com/demos/websocket-client/)
- Set up settings:
- * Host: *your host* or (for example) [HiveMQ](broker.hivemq.com)
- * Port: *your port* [HiveMQ](broker.hivemq.com) port is 8000
+
+## MQTT
+
+Open a [WebSocketClient](http://www.hivemq.com/demos/websocket-client/) or create one
+
+Set up settings:
+* Host: *your host* or (for example) [HiveMQ](broker.hivemq.com)
+* Port: *your port* [HiveMQ](broker.hivemq.com) port is 8000
+
 Try connection
+
 Set topic as __smartcar/v1/*licenseplate*/*relevatedmeasure*__
  * *smartcar/v1/ab123cd/temperature*
+
 Set message payload as:
+
     {
       value: 222,
       sensorID: 125
     }
 Try publishing
-```
-### CoAP
+
+
+## CoAP
+Find or create a CoAP client to send messages
+
+The path of your request should have the __/*licensplate*/*relevatedmeasure*__
+* *coap://www.abcd.com:5683/ab123cd/temperature*
+
+Set up the **Content-Format** or **Content-Type** in **application/json** of your message *header*
+
+Set message payload as:
+
+    {
+      value: 222,
+      sensorID: 125
+    }
+
+Try publishing
+
+
+
 
 
 
