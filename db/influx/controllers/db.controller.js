@@ -1,47 +1,39 @@
 const influx = require("influx");
 
-
 connectionConfig = () => {
-    return new influx.InfluxDB({
-        host: 'localhost',
-        database: 'cars',
-        port: 8086
-    })
-}
+  return new influx.InfluxDB({
+    host: "localhost",
+    database: "cars",
+    port: 8086
+  });
+};
 
 exports.connect = (host, db, port) => {
-    return new influx.InfluxDB({
-        host: host,
-        database: db,
-        port: port, //8086
-        schema: []
-    })
-}
+  return new influx.InfluxDB({
+    host: host,
+    database: db,
+    port: port, //8086
+    schema: []
+  });
+};
 
 exports.writeOnInflux = (db, object) => {
-  //console.log(object.fields);
-  var measure =  {
+  var measure = {
     measurement: object.measurement,
     fields: object.fields,
     tags: object.tags
   };
- //console.log(measure);
- //TODO find how to manage successful publish
- console.log("[TODO] Successful publishing on InfluxDB\n")
-  db
-    .writePoints(
-      ([
-        measure
-      ])
-    )
-    .catch(err => {
-      console.error(`Error saving data to InfluxDB ${err.stack}\n`);
-    });
+  //console.log(measure);
+  //TODO find how to manage successful publish
+  console.log("[TODO] Successful publishing on InfluxDB\n");
+  db.writePoints([measure]).catch(err => {
+    console.error(`Error saving data to InfluxDB ${err.stack}\n`);
+  });
 };
 
 exports.getAllMeasurement = () => {
   influx
-  //fare query su chronograf e inserire
+    //fare query su chronograf e inserire
     .query(
       `
     show measurements
@@ -53,10 +45,10 @@ exports.getAllMeasurement = () => {
 
 exports.getSpecificMeausure = (licensePlate, measured) => {
   influx
-  //fare query su chronograf e inserire
+    //fare query su chronograf e inserire
     .query(
       `
-      SELECT mean("value") AS "mean_value" FROM "cars"."autogen"."${licensePlate}" WHERE time > now() - 1h AND "measured"='${measured}'
+      SELECT mean("value") AS "mean_value" FROM "cars"."autogen"."${licensePlate}" WHERE time > now() - 1h AND "measured"='${measured} GROUP BY time(:interval:) FILL(null)'
   `
     )
     .then(result => response.status(200).json(result))

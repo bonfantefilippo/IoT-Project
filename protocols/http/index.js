@@ -15,12 +15,12 @@ server.use(restify.plugins.bodyParser());
 
 //applico rotte e prefisso
 sensorsRouter.applyRoutes(server, "/v1/sensors");
-carsRouter.applyRoutes(server, 'v1/cars')
+carsRouter.applyRoutes(server, '/v1/cars')
 
 //routerInstance.applyRoutes(server);
-influxManager.connect();
+//influxManager.connect();
 
-server.listen(8080, function() {
+server.listen(8081, function() {
   console.log("%s listening at %s", server.name, server.url);
 });
 

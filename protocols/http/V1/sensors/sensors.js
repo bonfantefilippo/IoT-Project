@@ -1,7 +1,12 @@
-const Router = require('restify-router').Router; 
+const Router = require("restify-router").Router;
 const router = new Router();
-const restify = require('restify');
-const influx = require('./../../../../db/influx/controllers/db.controller');
+const restify = require("restify");
+const influx = require("./../../../../db/influx/controllers/db.controller");
+const db = influx.connect(
+  "localhost",
+  "cars",
+  8086
+);
 
 router.use(restify.plugins.bodyParser());
 router.use(restify.plugins.queryParser());
@@ -9,12 +14,14 @@ router.use(restify.plugins.queryParser());
 //dati sensori
 router.get("/data/:licensePlate/:measured", (req, res, next) => {
   try {
-    //query
-    res.send(200, [{value: "sensore1"},  {value: "sensore2"}]);
+    influx.getSpecificMeausure(req.params.licensePlate, req.params.measured);
+    // res.send(200, [{value: "sensore1"},  {value: "sensore2"}]);
   } catch (e) {
-    res.sendStatus(500).send(e);
+     res.sendStatus(500).send(e);
   } finally {
-    console.log("[GET] /v1/sensors/data");
+    console.log(
+      `[GET] /v1/sensors/data/${req.params.licensePlate}/${req.params.measured}`
+    );
   }
   return next();
 });
@@ -22,8 +29,7 @@ router.get("/data/:licensePlate/:measured", (req, res, next) => {
 //dati singolo sensore
 router.get("/data/:id", (req, res, next) => {
   try {
-   
-    res.send(200, {value: "singolo sensore"});
+    res.send(200, { value: "singolo sensore" });
   } catch (e) {
     res.sendStatus(500).send(e);
   } finally {
@@ -32,31 +38,32 @@ router.get("/data/:id", (req, res, next) => {
   return next();
 });
 
-
-//scrittura misure
-router.post("/write", (req, res, next) => {
+//scrittura misura
+router.post("/write/:licensePlate/:measured", (req, res, next) => {
   try {
-    res.send(201, {value: "POSTED"}); 
+    var influxObj = {
+      measurement: req.params.licensePlate,
+      fields: {
+        value: req.body.value
+      },
+      tags: {
+        sensorID: req.body.sensorID,
+        measured: req.params.measured
+      }
+    };
+    console.log("influxObj :", influxObj);
+    res.send(202, influxObj);
+    influx.writeOnInflux(db, influxObj);
   } catch (e) {
     res.sendStatus(500).send(e);
   } finally {
-    console.log("[POST] /v1/sensors/write");
-    console.dir(`${req.body}`);
-  }
-  return next();
-});
-
-//scrittura singola misura
-router.post("/write/:id", (req, res, next) => {
-  try {
-      res.send(201, {value: "sono la post, puoi scrivere"}); 
-  } catch (e) {
-    res.sendStatus(500).send(e);
-  } finally {
-    console.log(`[POST] /v1/sensors/write/id}`);
+    console.log(
+      `[POST] /v1/sensors/write/${req.params.licensePlate}/${
+        req.params.measured
+      }`
+    );
   }
   return next();
 });
 
 module.exports = router;
-
