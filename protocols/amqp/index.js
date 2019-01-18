@@ -22,11 +22,11 @@ open
   .then(channel => {
     var exchange = "smartcar"; //coda in base alla targa o misurarilevata
     return channel
-      .assertExchange(exchange, "topic", { durable: false }) //l'exchange non esisterà più al riavvio del broker
+      .assertExchange(exchange, "topic", { durable: true }) //l'exchange esisterà al riavvio del broker
       .then(() => {
         var queue = "";
         channel
-          .assertQueue(queue, { exclusive: true }) // exclusive true--> scopes the queue to the connection (defaults to false)
+          .assertQueue(queue, { exclusive: true, durable: true }) // exclusive true--> scopes the queue to the connection (defaults to false)
           .then((err, q) => {
             console.log("[*] Waiting for measurements");
             channel.bindQueue(queue, exchange, "*.*"); //ricevo tipo "ab123cd.water"
@@ -40,19 +40,18 @@ open
                     channel.ack(msg);
                     resolve(msg);
                   }/*else{
-                      var meas = "Errore porco dio";
+                      var meas = "";
                       reject(meas)
                   }*/
-                  //GESTIRE SE C'è CONNESSIONE A MQTT PER PUBBLICARE; FARE UN FILE A PARTE PER MQTT DOVE FARò TUTTA
-                  //LA PARTE DI COMUNICAZIONE ANCHE SU DB
+  
                 }).then(res => {
                   console.log(
                     `[x] Received: ${res.content} as ${res.fields.routingKey}.`
                   );
                   let rkSplit = res.fields.routingKey.split('.');
-                  var topic = `${res.fields.exchange}/v1/${rkSplit[0]}/${rkSplit[1]}`
+                  var topic = `${res.fields.exchange}/v1/${rkSplit[0]}/${rkSplit[1]}` //mqtt topic
                   
-                  mqtt.publishMessage(topic, res.content)
+                  mqtt.publishMessage(topic, res.content) //pubblicazione via mqtt
                 })/*.catch((err)=>{
                     console.log(err);
                 });*/
