@@ -15,7 +15,7 @@ connection.then(channel => {
   var exchange = "smartcar";
   var routingKey = "ab123cd.temperature";
   var msg = {
-    value: 35,
+    value: 55,
     sensordID: 12
   };
 

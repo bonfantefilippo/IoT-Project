@@ -1,7 +1,7 @@
 var mqtt = require("mqtt");
 
 const connectionOptions = {
-  clientId: "SmartCar_pub",
+  clientId: "SmartCar_sub",
   protocolId: "MQTT",
   protocolVersion: 4
 };
