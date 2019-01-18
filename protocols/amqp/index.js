@@ -37,7 +37,7 @@ open
                 return new Promise((resolve, reject) => {
                   if (mqtt.getConnectionStatus()) {
                     channel.ack(msg);
-                    //console.log(msg);
+                    //console.log(msg)
                     resolve(msg);
                   } else {
                     channel.nack(msg);
@@ -57,7 +57,7 @@ open
 
                     mqtt.publishMessage(topic, res.content); //pubblicazione via mqtt
                   })
-                  .catch(res => {
+                  .catch(res => { //RICONESSIONE MQTT? O NEL FINALLY?
                    // console.log("[MQTT err] Message not published on MQTT");    
                   });
               },

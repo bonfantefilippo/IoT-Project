@@ -6,11 +6,11 @@ const connectionOptions = {
   protocolVersion: 4
 };
 var client = mqtt.connect(
-  "mqtt://broker.hivemq.com:1883",
+  "mqtt://broker.hivemq.co:1883",
   connectionOptions
 );
 
-var clientStatus = false;
+var clientStatus;
 
 client.on("connect", connack => {
   if (connack.returnCode != 0) {
@@ -19,12 +19,12 @@ client.on("connect", connack => {
     });
   }
   console.log("[MQTT] Client connected and waiting for message...");
-  clientStatus = true;
+  clientStatus = client.connected;
 });
 
 client.on("offline", ()=>{
     console.log("[MQTT] Client offline.")
-    clientStatus = false;
+    clientStatus = client.connected;
 })
 
 function getConnectionStatus() {
