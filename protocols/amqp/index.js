@@ -1,7 +1,7 @@
 var amqp = require("amqplib");
 var mqtt = require("./mqtt_publisher/mqtt");
 
-require("dotenv").config();
+require("dotenv").config({ path: "../../env/.env" });
 
 //connection open
 var open = amqp
@@ -35,26 +35,31 @@ open
               queue,
               msg => {
                 return new Promise((resolve, reject) => {
-                  if (msg.content) {
-                      //console.dir(mqtt.getConnectionStatus());
+                  if (mqtt.getConnectionStatus()) {
                     channel.ack(msg);
+                    //console.log(msg);
                     resolve(msg);
-                  }/*else{
-                      var meas = "";
-                      reject(meas)
-                  }*/
-  
-                }).then(res => {
-                  console.log(
-                    `[x] Received: ${res.content} as ${res.fields.routingKey}.`
-                  );
-                  let rkSplit = res.fields.routingKey.split('.');
-                  var topic = `${res.fields.exchange}/v1/${rkSplit[0]}/${rkSplit[1]}` //mqtt topic
-                  
-                  mqtt.publishMessage(topic, res.content) //pubblicazione via mqtt
-                })/*.catch((err)=>{
-                    console.log(err);
-                });*/
+                  } else {
+                    channel.nack(msg);
+                    reject(msg);
+                  }
+                })
+                  .then(res => {
+                    console.log(
+                      `[x] Received: ${res.content} as ${
+                        res.fields.routingKey
+                      }.`
+                    );
+                    let rkSplit = res.fields.routingKey.split(".");
+                    var topic = `${res.fields.exchange}/v1/${rkSplit[0]}/${
+                      rkSplit[1]
+                    }`; //mqtt topic
+
+                    mqtt.publishMessage(topic, res.content); //pubblicazione via mqtt
+                  })
+                  .catch(res => {
+                   // console.log("[MQTT err] Message not published on MQTT");    
+                  });
               },
               { noAck: false } //mando ack
             );

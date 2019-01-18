@@ -23,6 +23,7 @@ client.on("connect", connack => {
 });
 
 client.on("offline", ()=>{
+    console.log("[MQTT] Client offline.")
     clientStatus = false;
 })
 
