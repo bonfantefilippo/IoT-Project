@@ -6,7 +6,7 @@ const connectionOptions = {
   protocolVersion: 4
 };
 var client = mqtt.connect(
-  "mqtt://broker.hivemq.co:1883",
+  "mqtt://broker.hivemq.com:1883",
   connectionOptions
 );
 
