@@ -2,9 +2,10 @@ const Router = require("restify-router").Router;
 const router = new Router();
 const restify = require("restify");
 const influx = require("./../../../../db/influx/controllers/db.controller");
+require("dotenv").config({ path: "../../../../env/.env" });
 const db = influx.connect(
-  "localhost",
-  "cars",
+  process.env.INFLUX_HOST, 
+  process.env.INFLUX_DB,
   8086
 );
 

@@ -1,4 +1,5 @@
 var mqtt = require("mqtt");
+require("dotenv").config({ path: "../../env/.env" });
 
 const connectionOptions = {
   clientId: "SmartCar_sub",
@@ -10,7 +11,7 @@ var client = mqtt.connect(
   connectionOptions
 );
 const influxManager = require("../../db/influx/controllers/db.controller");
-const db = influxManager.connect('localhost', 'cars', 8086);
+const db = influxManager.connect(process.env.INFLUX_HOST, process.env.INFLUX_DB, 8086);
 
 
 client.on("connect", connack => {
@@ -53,6 +54,6 @@ client.on("message", (topic, message, packet) => {
         measured: topicSplitted[3]
       }
   };
-  
+
   influxManager.writeOnInflux(db, influxMeasure);
 });

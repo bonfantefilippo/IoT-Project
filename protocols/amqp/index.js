@@ -28,7 +28,7 @@ open
         channel
           .assertQueue(queue, { exclusive: true, durable: true }) // exclusive true--> scopes the queue to the connection (defaults to false)
           .then((err, q) => {
-            console.log("[*] Waiting for measurements");
+            console.log("[AMQP] Waiting for measurements");
             channel.bindQueue(queue, exchange, "*.*"); //ricevo tipo "ab123cd.water"
 
             channel.consume(

@@ -39,7 +39,7 @@ function getConnectionStatus() {
 
 //topic:  smartcar/v1/identificativo/water ecc
 function publishMessage(topic, message){
-    client.publish(topic, message);
+    client.publish(topic, message, {qos:1, retain: true});
     console.log("Published: "+message.toString())
 }
 module.exports = {getConnectionStatus, publishMessage};
