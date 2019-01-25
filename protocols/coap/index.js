@@ -1,9 +1,10 @@
 var coap = require("coap"),
   server = coap.createServer();
 const influxManager = require("../../db/influx/controllers/db.controller");
+require("dotenv").config({ path: "../../../../env/.env" });
 const db = influxManager.connect(
-  "localhost",
-  "cars",
+  process.env.INFLUX_HOST,
+  process.env.INFLUX_DB,
   8086
 );
 

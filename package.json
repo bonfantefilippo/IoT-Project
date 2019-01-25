@@ -9,8 +9,10 @@
   "author": "Filippo Bonfante",
   "license": "ISC",
   "dependencies": {
+    "amqplib": "^0.5.3",
     "body-parser": "^1.18.3",
     "coap": "^0.22.0",
+    "dotenv": "^6.2.0",
     "influx": "^5.0.7",
     "mqtt": "^2.18.8",
     "restify": "^6.2.3",
